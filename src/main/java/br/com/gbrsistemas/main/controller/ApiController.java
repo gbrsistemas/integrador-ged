@@ -103,7 +103,9 @@ public class ApiController {
 
                 return vistoriaResponse;
             } else {
+                String responseBody = response.readEntity(String.class);
                 System.err.println("Erro na solicitação. Código de resposta: " + response.getStatus());
+                System.out.println("\n\n\n responseBody: " + responseBody + "\n\n\n");
                 return null;
             }
         } finally {
