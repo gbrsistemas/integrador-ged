@@ -1,5 +1,6 @@
 package br.com.gbrsistemas.main.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -87,6 +88,9 @@ public class ApiController {
     
             String requestBody = JsonConverter.objectToJson(vistoriaEfetuadaSeletorRequest);
             System.out.println("\n\n\n requestBody: " + requestBody + "\n\n\n");
+
+            Date d = JsonConverter.jsonToObject("1768446000000", Date.class);
+            System.out.println(d);
     
             Response response = target
                     .request(MediaType.APPLICATION_JSON)
