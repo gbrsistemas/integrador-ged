@@ -1,5 +1,6 @@
 package br.com.gbrsistemas.main.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,6 +15,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.ws.rs.core.Form;
@@ -79,22 +81,29 @@ public class ApiController {
         Client client = null;
         try {
             client = ClientBuilder.newClient();
-    
-            WebTarget target = client.target(this.api + "/crvirtual-demandas/vistoria/pesquisar-vistorias-efetuadas");
+
+            String url = this.api + "/crvirtual-demandas/vistoria/pesquisar-vistorias-efetuadas";
+            WebTarget target = client.target(url);
     
             String requestBody = JsonConverter.objectToJson(vistoriaEfetuadaSeletorRequest);
+            System.out.println("\n\n\n requestBody: " + requestBody + "\n\n\n");
     
             Response response = target
                     .request(MediaType.APPLICATION_JSON)
                     .header("Authorization", "Bearer " + token)
                     .post(Entity.json(requestBody));
-                            
+
+            System.out.println("\n\n\n STATUS: " + response.getStatus() + "\n\n\n");
             if (response.getStatus() == 200) {
                 VistoriaEfetuadaResponseDTO vistoriaResponse = JsonConverter.jsonToObject(response.readEntity(String.class), VistoriaEfetuadaResponseDTO.class);
-                
+
                 return vistoriaResponse;
             } else {
+                String responseBody = response.readEntity(String.class);
                 System.err.println("Erro na solicitação. Código de resposta: " + response.getStatus());
+                System.out.println("\n\n\n responseBody: " + responseBody + "\n\n\n");
+
+                // depois providenciar salvar em auditoria o erro
                 return null;
             }
         } finally {
