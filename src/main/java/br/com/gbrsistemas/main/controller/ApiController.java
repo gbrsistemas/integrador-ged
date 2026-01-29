@@ -83,14 +83,10 @@ public class ApiController {
             client = ClientBuilder.newClient();
 
             String url = this.api + "/crvirtual-demandas/vistoria/pesquisar-vistorias-efetuadas";
-            System.out.println("\n\n\n URL CFM: " + url + "\n\n\n");
             WebTarget target = client.target(url);
     
             String requestBody = JsonConverter.objectToJson(vistoriaEfetuadaSeletorRequest);
             System.out.println("\n\n\n requestBody: " + requestBody + "\n\n\n");
-
-            Date d = JsonConverter.jsonToObject("1768446000000", Date.class);
-            System.out.println(d);
     
             Response response = target
                     .request(MediaType.APPLICATION_JSON)
@@ -100,16 +96,14 @@ public class ApiController {
             System.out.println("\n\n\n STATUS: " + response.getStatus() + "\n\n\n");
             if (response.getStatus() == 200) {
                 VistoriaEfetuadaResponseDTO vistoriaResponse = JsonConverter.jsonToObject(response.readEntity(String.class), VistoriaEfetuadaResponseDTO.class);
-                System.out.println("\n\n\n TOTAL: " + vistoriaResponse.getTotal() + "\n\n\n");
-
-                Gson gson = new Gson();
-                System.out.println("\n\n\n " + gson.toJson(vistoriaResponse.getItens()) + "\n\n\n");
 
                 return vistoriaResponse;
             } else {
                 String responseBody = response.readEntity(String.class);
                 System.err.println("Erro na solicitação. Código de resposta: " + response.getStatus());
                 System.out.println("\n\n\n responseBody: " + responseBody + "\n\n\n");
+
+                // depois providenciar salvar em auditoria o erro
                 return null;
             }
         } finally {
