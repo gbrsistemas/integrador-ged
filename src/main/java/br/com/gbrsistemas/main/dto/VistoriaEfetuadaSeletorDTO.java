@@ -1,5 +1,7 @@
 package br.com.gbrsistemas.main.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class VistoriaEfetuadaSeletorDTO {
@@ -11,9 +13,13 @@ public class VistoriaEfetuadaSeletorDTO {
     private Integer numeroDemanda;
     private Integer anoDemanda;
     private String ufDemanda;
-    private Date dataInicialTransmissao;    
-    private Date dataFinalTransmissao;    
-    private Date dataInicialVistoria;    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date dataInicialTransmissao;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date dataFinalTransmissao;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date dataInicialVistoria;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date dataFinalVistoria;    
     private String nome;
     private String nomeMunicipio;
