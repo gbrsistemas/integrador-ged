@@ -45,6 +45,8 @@ public class CfmService {
 
     @PUT
     @Path("/atualizar-demanda")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response atualizarDemanda(DemandaExternaDto dto) throws Exception {
         this.cfmController.atualizarDemanda(dto);
         return Response.ok().build();
