@@ -191,7 +191,7 @@ public class ApiController {
         Response response = target
                 .request(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
-                .post(Entity.json(requestBody));
+                .put(Entity.json(requestBody));
 
         if (response.getStatus() != 200) {
             String responseBody = response.readEntity(String.class);
