@@ -16,6 +16,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
+import br.com.gbrsistemas.main.dto.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
@@ -26,17 +27,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import com.google.common.base.Strings;
 
 import br.com.gbrsistemas.crvirtual.util.exception.ClientExceptionHelper;
-import br.com.gbrsistemas.main.dto.AnexoGedDTO;
-import br.com.gbrsistemas.main.dto.AnexoSeletorDTO;
-import br.com.gbrsistemas.main.dto.IntegradorGedDTO;
-import br.com.gbrsistemas.main.dto.IrregularidadesGedDTO;
-import br.com.gbrsistemas.main.dto.ItemAnexoDTO;
-import br.com.gbrsistemas.main.dto.ItemIrregularidadeDTO;
-import br.com.gbrsistemas.main.dto.LoginDTO;
-import br.com.gbrsistemas.main.dto.VistoriaEfetuadaDTO;
-import br.com.gbrsistemas.main.dto.VistoriaEfetuadaResponseDTO;
-import br.com.gbrsistemas.main.dto.VistoriaEfetuadaSeletorDTO;
-import br.com.gbrsistemas.main.dto.VistoriaResponseDTO;
 import client.IrregularidadeServiceClient;
 import client.ProcessoFiscalizacaoServiceClient;
 
@@ -214,5 +204,10 @@ public class CfmController {
             ClientExceptionHelper.handleException(e);
         }
 	}
+
+    public void atualizarDemanda(DemandaExternaDto dto) throws Exception {
+        this.login();
+        this.apiController.atualizarDemanda(dto, this.accesToken);
+    }
 
 }
