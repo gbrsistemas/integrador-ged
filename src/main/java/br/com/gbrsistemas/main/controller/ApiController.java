@@ -199,7 +199,7 @@ public class ApiController {
             System.err.println("\n\nErro na solicitação. Código de resposta: " + response.getStatus());
             System.out.println(responseBody);
             System.out.println("\n\n");
-            throw new Exception(String.format("Erro ao atualizar demanda do CFM (status: %s)", response.getStatus()));
+            throw new Exception(String.format("Erro ao atualizar demanda do CFM (%s)", responseBody));
         }
     }
 }
