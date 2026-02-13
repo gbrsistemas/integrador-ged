@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.gbrsistemas.main.dto.*;
+import br.com.gbrsistemas.main.util.Util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -195,11 +196,12 @@ public class ApiController {
 
         if (response.getStatus() != 200) {
             String responseBody = response.readEntity(String.class);
+            String retorno = Util.formatErro(responseBody);
 
             System.err.println("\n\nErro na solicitação. Código de resposta: " + response.getStatus());
             System.out.println(responseBody);
             System.out.println("\n\n");
-            throw new Exception(String.format("Não foi possível atualizar a demanda do CFM (%s)", responseBody));
+            throw new Exception(String.format("Não foi possível atualizar a demanda do CFM (%s)", retorno));
         }
     }
 }
