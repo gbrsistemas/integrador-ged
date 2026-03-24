@@ -1,5 +1,6 @@
 package br.com.gbrsistemas.main.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -198,7 +199,7 @@ public class ApiController {
 
         System.out.println("\n\n------ status atualizar demanda CFM: " + status);
 
-        if (status != 200) {
+        if (!Arrays.asList(Response.Status.OK.getStatusCode(), Response.Status.ACCEPTED.getStatusCode()).contains(status)) {
             response.bufferEntity();
 
             String responseBody = response.readEntity(String.class);
