@@ -194,11 +194,13 @@ public class ApiController {
                 .header("Authorization", "Bearer " + token)
                 .put(Entity.json(requestBody));
 
-        if (response.getStatus() != 200) {
+        Integer status = response.getStatus();
+
+        if (status != 200) {
             String responseBody = response.readEntity(String.class);
             String retorno = Util.formatErro(responseBody);
 
-            System.err.println("\n\nErro na solicitação. Código de resposta: " + response.getStatus());
+            System.err.println("\n\nErro na solicitação. Código de resposta: " + status);
             System.out.println(responseBody);
             System.out.println("\n\n");
             throw new Exception(String.format("Não foi possível atualizar a demanda do CFM (%s)", retorno));
