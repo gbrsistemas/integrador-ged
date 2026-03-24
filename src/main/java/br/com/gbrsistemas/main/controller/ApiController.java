@@ -196,7 +196,11 @@ public class ApiController {
 
         Integer status = response.getStatus();
 
+        System.out.println("\n\n------ status atualizar demanda CFM: " + status);
+
         if (status != 200) {
+            response.bufferEntity();
+
             String responseBody = response.readEntity(String.class);
             String retorno = Util.formatErro(responseBody);
 
