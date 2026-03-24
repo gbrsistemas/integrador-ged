@@ -1,8 +1,11 @@
 package br.com.gbrsistemas.main.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import br.com.gbrsistemas.main.dto.*;
+import br.com.gbrsistemas.main.util.Util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,16 +24,6 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import javax.ws.rs.core.Form;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-
-import br.com.gbrsistemas.main.dto.VistoriaEfetuadaSeletorDTO;
-import br.com.gbrsistemas.main.dto.ItemAnexoDTO;
-import br.com.gbrsistemas.main.dto.AnexoDTO;
-import br.com.gbrsistemas.main.dto.IrregularidadeDTO;
-import br.com.gbrsistemas.main.dto.ItemIrregularidadeDTO;
-import br.com.gbrsistemas.main.dto.AnexoSeletorDTO;
-import br.com.gbrsistemas.main.dto.LoginDTO;
-import br.com.gbrsistemas.main.dto.IrregularidadesSeletorDemandasDTO;
-import br.com.gbrsistemas.main.dto.VistoriaEfetuadaResponseDTO;
 
 import br.com.gbrsistemas.main.util.JsonConverter;
 
@@ -189,4 +182,33 @@ public class ApiController {
             throw new Exception(String.format("Erro ao consultar irregularidades do CFM (status: %s)", response.getStatus()));
         }
 	}
+
+    public void atualizarDemanda(DemandaExternaDto dto, String token) throws Exception {
+        Client client = ClientBuilder.newClient();
+
+        WebTarget target = client.target(this.api + "/crvirtual-demandas/demanda/atualizar-demanda-externa");
+
+        String requestBody = JsonConverter.objectToJson(dto);
+
+        Response response = target
+                .request(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .put(Entity.json(requestBody));
+
+        Integer status = response.getStatus();
+
+        System.out.println("\n\n------ status atualizar demanda CFM: " + status);
+
+        if (!Arrays.asList(Response.Status.OK.getStatusCode(), Response.Status.ACCEPTED.getStatusCode()).contains(status)) {
+            response.bufferEntity();
+
+            String responseBody = response.readEntity(String.class);
+            String retorno = Util.formatErro(responseBody);
+
+            System.err.println("\n\nErro na solicitação. Código de resposta: " + status);
+            System.out.println(responseBody);
+            System.out.println("\n\n");
+            throw new Exception(String.format("Não foi possível atualizar a demanda do CFM (%s)", retorno));
+        }
+    }
 }

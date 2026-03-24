@@ -1,14 +1,11 @@
 package br.com.gbrsistemas.main.service.cfm;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import br.com.gbrsistemas.main.dto.DemandaExternaDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import br.com.gbrsistemas.main.controller.CfmController;
@@ -45,5 +42,14 @@ public class CfmService {
 		
 	    return Response.ok().build();
 	}
+
+    @PUT
+    @Path("/atualizar-demanda")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response atualizarDemanda(DemandaExternaDto dto) throws Exception {
+        this.cfmController.atualizarDemanda(dto);
+        return Response.ok().build();
+    }
 	
 }
